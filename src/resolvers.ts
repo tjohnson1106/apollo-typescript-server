@@ -5,7 +5,12 @@ import { User } from "./entity/User";
 
 export const resolvers: IResolvers = {
   Query: {
-    hello: () => "Hello word"
+    me: (_, __, { req }) => {
+      if (!req.session.userId) {
+        return null;
+      }
+      return User.findOne(req.session.userId);
+    }
   },
   Mutation: {
     register: async (_, { email, password }) => {
@@ -17,7 +22,7 @@ export const resolvers: IResolvers = {
 
       return true;
     },
-    login: async (_, { email, password }) => {
+    login: async (_, { email, password }, { req }) => {
       const user = await User.findOne({
         where: { email }
       });
@@ -25,6 +30,8 @@ export const resolvers: IResolvers = {
       if (!user) {
         return null;
       }
+
+      req.session.userId = user.id;
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
