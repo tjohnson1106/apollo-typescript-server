@@ -21,6 +21,7 @@ const startServer = async () => {
 
   const app = express();
 
+  // remember cookie behaviour props availble with session
   app.use(
     session({
       secret: "secretsecret",
@@ -29,6 +30,7 @@ const startServer = async () => {
     })
   );
 
+  // credentials must be boolean value in TypeScript
   server.applyMiddleware({
     app,
     cors: {
