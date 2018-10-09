@@ -5,6 +5,7 @@ export const typeDefs = gql`
     id: ID!
     email: String!
     type: String!
+    ccLast4: String
   }
 
   type Query {

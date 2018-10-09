@@ -21,5 +21,10 @@
     "experimentalDecorators": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+  "include": [
+    "./src/**/*.tsx",
+    "./src/**/*.ts",
+    "../web/src/graphql/fragments/userFragment.tsx",
+    "../web/src/graphql/fragments/UserFragment.tsx"
+  ]
 }
