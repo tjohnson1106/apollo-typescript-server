@@ -100,6 +100,16 @@ export const resolvers: IResolvers = {
 
       await stripe.subscriptions.del(subscription.id);
 
+      // optional deletes card with subscription
+
+      await stripe.customers.deleteCard(
+        user.stripeId,
+        stripeCustomer.default_source as string
+      );
+
+      user.type = "free-trial";
+      await user.save();
+
       return user;
     }
   }
