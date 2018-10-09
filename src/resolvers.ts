@@ -41,7 +41,7 @@ export const resolvers: IResolvers = {
 
       return user;
     },
-    createSubscription: async (_, { source }, { req }) => {
+    createSubscription: async (_, { source, ccLast4 }, { req }) => {
       if (!req.session || !req.session.userId) {
         throw new Error("not authenticated");
       }
@@ -60,11 +60,12 @@ export const resolvers: IResolvers = {
 
       user.stripeId = customer.id;
       user.type = "paid";
+      user.ccLast4 = ccLast4;
       await user.save();
 
       return user;
     },
-    changeCreditCard: async (_, { source }, { req }) => {
+    changeCreditCard: async (_, { source, ccLast4 }, { req }) => {
       if (!req.session || !req.session.userId) {
         throw new Error("not authenticated");
       }
@@ -76,6 +77,9 @@ export const resolvers: IResolvers = {
       }
 
       await stripe.customers.update(user.stripeId, { source });
+
+      user.ccLast4 = ccLast4;
+      await user.save();
 
       return user;
     }
