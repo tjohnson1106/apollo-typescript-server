@@ -1,24 +1,27 @@
-FROM node
-
+# stage 1 build the code
+FROM node as builder
 # Create app directory
 WORKDIR /usr/app
-
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
-RUN npm install
-# If you are building your code for production
+COPY package*.json ./]
 # RUN npm install --only=production
-
+RUN npm install
 # Bundle app source
 COPY . .
-
 RUN npm run build
-COPY ormconfig.json ./dist/
-COPY .env ./dist/
-WORKDIR ./dist
+
+# stage 2
+FROM node
+WORKDIR /usr/app
+COPY package*.json ./]
+RUN npm install --production
+
+COPY  --from=builder /usr/app/dist ./dist
+
+COPY . .
+
+COPY ormconfig.json .
+COPY .env .
 
 EXPOSE 4000
-CMD node src/index.js
+CMD node dist/src/index.js
