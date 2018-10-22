@@ -5,6 +5,7 @@
     "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": ".",
     "moduleResolution": "node",
 
     "removeComments": true,
@@ -21,10 +22,12 @@
     "experimentalDecorators": true
   },
   "exclude": ["node_modules"],
-  "include": [
-    "./src/**/*.tsx",
-    "./src/**/*.ts",
-    "../web/src/graphql/fragments/userFragment.tsx",
-    "../web/src/graphql/fragments/UserFragment.tsx"
-  ]
+  // docker config
+  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+  // "include": [
+  //   "./src/**/*.tsx",
+  //   "./src/**/*.ts",
+  //   "../web/src/graphql/fragments/userFragment.tsx",
+  //   "../web/src/graphql/fragments/UserFragment.tsx"
+  // ]
 }
