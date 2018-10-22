@@ -1,24 +1,18 @@
-# stage 1 build the code
+# stage 1 building the code
 FROM node as builder
-# Create app directory
 WORKDIR /usr/app
-# Install app dependencies
-COPY package*.json ./]
-# RUN npm install --only=production
+COPY package*.json ./
 RUN npm install
-# Bundle app source
 COPY . .
 RUN npm run build
 
 # stage 2
 FROM node
 WORKDIR /usr/app
-COPY package*.json ./]
+COPY package*.json ./
 RUN npm install --production
 
-COPY  --from=builder /usr/app/dist ./dist
-
-COPY . .
+COPY --from=builder /usr/app/dist ./dist
 
 COPY ormconfig.json .
 COPY .env .
